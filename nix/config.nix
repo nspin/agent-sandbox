@@ -13,6 +13,8 @@ in {
   systemd.user.enable = false;
 
   nix.enable = true;
+  nix.package = pkgs.nix;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   home.sessionVariables = {
     CLAUDE_CONFIG_DIR = "${mntDir}/claude";
