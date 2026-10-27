@@ -176,4 +176,10 @@ in {
     ];
   };
 
+  home.file.".local/share/bash-completion/completions/cargo.bash".source = pkgs.writeText "cargo.bash" ''
+    if command -v cargo >/dev/null 2>&1 && (cargo --version | grep -Fq nightly); then
+      source <(CARGO_COMPLETE=bash cargo)
+    fi
+  '';
+
 }
