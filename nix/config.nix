@@ -48,6 +48,10 @@ in {
     settings.user.name = "Nick Spinale";
     settings.user.email = "nick@nickspinale.com";
     settings.core.editor = "vim";
+    ignores = [
+      "**/result"
+      "**/result-*"
+    ];
   };
 
   programs.readline = {
