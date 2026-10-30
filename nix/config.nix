@@ -26,6 +26,7 @@ in {
     wget
     nix
     cacert
+    openssh
     bash-completion
     nix-bash-completions
   ];
