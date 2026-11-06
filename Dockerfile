@@ -22,7 +22,14 @@ RUN set -eux; \
         --shell /home/x/.nix-profile/bin/bash \
         --create-home x;
 
+RUN set -eux; \
+    mkdir -p -m 0755 /nix; \
+    chown $UID:$GID /nix;
+
 USER $UID
+
+RUN curl -sSf -L https://nixos.org/nix/install | \
+        bash -s -- --yes --no-modify-profile --no-channel-add
 
 ENV USER=x
 

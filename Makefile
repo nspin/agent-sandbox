@@ -8,6 +8,7 @@ work_remote_path:= /work
 id := $(ID)
 image_tag := $(id)
 container_name := $(id)
+volume_name := $(id)
 
 uid := $(shell id -u)
 gid := $(shell id -g)
@@ -16,7 +17,7 @@ gid := $(shell id -g)
 none:
 
 .PHONY: clean
-clean: rm-container
+clean: rm-container rm-volume
 
 vscode_container_config := $(HOME)/.config/Code/User/globalStorage/ms-vscode-remote.remote-containers/nameConfigs/$(id).json
 
@@ -42,9 +43,7 @@ build:
 run: build
 	docker run -d -it \
 		--name $(container_name) \
-		--mount type=bind,src=/nix/store,dst=/nix/store,ro \
-		--mount type=bind,src=/nix/var/nix/db,dst=/nix/var/nix/db,ro \
-		--mount type=bind,src=/nix/var/nix/daemon-socket,dst=/nix/var/nix/daemon-socket,ro \
+		--mount type=volume,src=$(volume_name),dst=/nix \
 		--mount type=bind,src=$(abspath $(work_local_path)),dst=$(work_remote_path) \
 		$(image_tag)
 
@@ -66,4 +65,10 @@ start:
 rm-container:
 	for id in $$(docker ps -aq -f "name=^$(container_name)$$"); do \
 		docker rm -f $$id; \
+	done
+
+.PHONY: rm-volume
+rm-volume: rm-container
+	for id in $$(docker volume ls -q -f "name=^$(volume_name)$$"); do \
+		docker volume rm $$id; \
 	done
