@@ -78,4 +78,6 @@ rm-volume: rm-container
 	done
 
 shell-drv:
-	ln -s $$(nix eval nix#devShells.aarch64-linux.default.drvPath --raw) ../work/shell.nix
+	ln -s $$(nix eval nix#devShells.aarch64-linux.default.drvPath --raw) ../work/shell.drv
+
+# make rm-container && make sync-config && make run && make activate
