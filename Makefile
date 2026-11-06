@@ -56,6 +56,10 @@ activate:
 	docker exec -it $(container_name) \
 		/here/activate.sh
 
+shell-drv:
+	docker exec -it $(container_name) \
+		/here/shell-drv.sh
+
 .PHONY: exec
 exec:
 	docker exec -it $(container_name) \
@@ -77,7 +81,4 @@ rm-volume: rm-container
 		docker volume rm $$id; \
 	done
 
-shell-drv:
-	ln -s $$(nix eval nix#devShells.aarch64-linux.default.drvPath --raw) ../work/shell.drv
-
-# make rm-container && make sync-config && make run && make activate
+# make rm-container && make run && make activate
