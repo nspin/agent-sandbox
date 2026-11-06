@@ -25,10 +25,10 @@ let
       imports = [
         ./config.nix
       ];
-
       nix.nixPath = [
         "nixpkgs=${nixpkgsSource}"
       ];
+      nixpkgs.config.allowUnfree = true;
     };
   };
 

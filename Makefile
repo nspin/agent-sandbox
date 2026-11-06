@@ -5,6 +5,9 @@ W ?= ../work
 work_local_path := $(W)
 work_remote_path:= /work
 
+here_local_path := .
+here_remote_path:= /here
+
 id := $(ID)
 image_tag := $(id)
 container_name := $(id)
@@ -19,7 +22,7 @@ none:
 .PHONY: clean
 clean: rm-container rm-volume
 
-vscode_container_config := $(HOME)/.config/Code/User/globalStorage/ms-vscode-remote.remote-containers/nameConfigs/$(id).json
+vscode_container_config := "$(HOME)/Library/Application\ Support/Code/User/globalStorage/ms-vscode-remote.remote-containers/nameConfigs/$(id).json"
 
 .PHONY: $(vscode_container_config) # TODO shouldn't have to be .PHONY
 $(vscode_container_config): remote-container-config.jsonc
@@ -45,17 +48,18 @@ run: build
 		--name $(container_name) \
 		--mount type=volume,src=$(volume_name),dst=/nix \
 		--mount type=bind,src=$(abspath $(work_local_path)),dst=$(work_remote_path) \
+		--mount type=bind,src=$(abspath $(here_local_path)),dst=$(here_remote_path) \
 		$(image_tag)
 
 .PHONY: activate
 activate:
 	docker exec -it $(container_name) \
-		$$(nix-build --no-out-link -A activate)/bin/activate
+		/here/activate.sh
 
 .PHONY: exec
 exec:
 	docker exec -it $(container_name) \
-		$$(nix-build --no-out-link -A home.activationPackage)/home-path/bin/bash -l
+		/bin/bash -l
 
 .PHONY: start
 start:

@@ -2,6 +2,11 @@ FROM debian:trixie-slim
 
 RUN apt-get update && apt-get install -y \
     sudo \
+    curl \
+    build-essential \
+    xz-utils \
+    make \
+    git \
     # for codex vscode extension
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
@@ -28,8 +33,18 @@ RUN set -eux; \
 
 USER $UID
 
-RUN curl -sSf -L https://nixos.org/nix/install | \
+RUN set -eux -o pipefail; \
+    curl -sSf -L https://nixos.org/nix/install | \
         bash -s -- --yes --no-modify-profile --no-channel-add
+
+# Add gcroot for store paths required by this image so that fresh images can use persistent /nix
+# volumes.
+RUN set -eux; \
+    export USER=$(whoami); \
+    . ~/.nix-profile/etc/profile.d/nix.sh; \
+    nix-store -r \
+        --add-root /nix/var/nix/gcroots-for-image/profile \
+        $(readlink --canonicalize-existing ~/.nix-profile);
 
 ENV USER=x
 
