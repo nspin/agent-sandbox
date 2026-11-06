@@ -76,3 +76,6 @@ rm-volume: rm-container
 	for id in $$(docker volume ls -q -f "name=^$(volume_name)$$"); do \
 		docker volume rm $$id; \
 	done
+
+shell-drv:
+	ln -s $$(nix eval nix#devShells.aarch64-linux.default.drvPath --raw) ../work/shell.nix
