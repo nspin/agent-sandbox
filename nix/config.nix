@@ -144,6 +144,8 @@ in {
 
     initExtra = lib.mkMerge [
       ''
+        PS1='\u@\h:\w\$ '
+
         gdu() {
             (
                 set -eux -o pipefail;

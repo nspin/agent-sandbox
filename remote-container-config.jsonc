@@ -17,7 +17,6 @@
                 "leanprover.lean4",
             ],
             "settings": {
-                "terminal.integrated.defaultProfile.linux": "bash",
                 "claudeCode.allowDangerouslySkipPermissions": true,
                 "claudeCode.initialPermissionMode": "bypassPermissions",
             },
