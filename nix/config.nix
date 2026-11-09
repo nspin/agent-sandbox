@@ -147,11 +147,11 @@ in {
         PS1='\u@\h:\w\$ '
 
         gdu() {
-            (
-                set -eux -o pipefail;
-                u=$(git rev-parse --abbrev-ref --symbolic-full-name @{u})
-                git diff $u
-            )
+          (
+              set -eux -o pipefail;
+              u=$(git rev-parse --abbrev-ref --symbolic-full-name @{u})
+              git diff $u
+          )
         }
       ''
       # would ideally be in .profile, but must be after last sourcing of nix.sh
