@@ -54,7 +54,8 @@ run: build
 .PHONY: activate
 activate:
 	docker exec -it $(container_name) \
-		/here/activate.sh
+		/bin/bash -c \
+			'$$(/home/x/.nix-profile/bin/nix-build --no-out-link /here -A activate)/bin/activate'
 
 shell-drv:
 	docker exec -it $(container_name) \
@@ -63,7 +64,7 @@ shell-drv:
 .PHONY: exec
 exec:
 	docker exec -it $(container_name) \
-		/bin/bash -l
+		/home/x/.nix-profile/bin/bash -l
 
 .PHONY: start
 start:
@@ -72,7 +73,7 @@ start:
 .PHONY: rm-container
 rm-container:
 	for id in $$(docker ps -aq -f "name=^$(container_name)$$"); do \
-		docker rm -f $$id; \
+		docker rm -f --volumes $$id; \
 	done
 
 .PHONY: rm-volume

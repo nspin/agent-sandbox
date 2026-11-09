@@ -17,7 +17,6 @@ in {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   home.sessionVariables = {
-    CLAUDE_CONFIG_DIR = "${mntDir}/claude";
     CODEX_HOME = "${mntDir}/codex";
   };
 
@@ -30,11 +29,13 @@ in {
     cacert
     bash-completion
     nix-bash-completions
+    gh
   ];
 
   programs.home-manager.enable = true;
 
   programs.claude-code.enable = true;
+  programs.claude-code.configDir = "${mntDir}/claude";
 
   programs.codex.enable = true;
   programs.codex.settings = {
@@ -150,32 +151,16 @@ in {
                 git diff $u
             )
         }
-
-        # Prompt
-
-        reset="\[$(tput sgr0)\]"
-        symbol="\[$(tput setaf 6)\]"
-        text="\[$(tput setaf 2)\]"
-
-        if printf '%s' "$LANG" | egrep -qi 'utf-?8'; then
-            lambda='λ'
-            arrow='→'
-        else
-            lambda='\\'
-            arrow='->'
-        fi
-
-        PS1="$text \u@\h $symbol$lambda$text \w $symbol$arrow$reset "
       ''
       # would ideally be in .profile, but must be after last sourcing of nix.sh
       (lib.mkAfter ''
         if [ -z "''${IN_NIX_SHELL+x}" ]; then
-          shell_drv=/work/shell.drv
+          shell_drv=${mntDir}/shell.drv
           if [ -e "$shell_drv" ]; then
-            # restore_tmpdir="$(declare -px TMPDIR 2>/dev/null)"
-            # eval "$(nix-shell "$shell_drv" --run 'declare -px' 2>/dev/null)"
-            # eval "$restore_tmpdir"
-            eval "$(nix-shell "$shell_drv" --run 'declare -px' 2>/dev/null | grep -Ev '^declare -x TMP(DIR)?=')"
+            eval "$(
+              nix-shell "$shell_drv" --run 'declare -px' 2>/dev/null | \
+                grep -Ev '^declare -x TMP(DIR)?='
+            )"
           fi
         fi
       '')

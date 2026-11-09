@@ -38,8 +38,7 @@ let
       pkgs.nix
     ];
     text = ''
-      USER=$(whoami)
-      export USER
+      nix-env --set-flag priority 10 nix
       export HOME_MANAGER_BACKUP_EXT=hm-bak
       exec ${home.activationPackage}/activate
     '';
