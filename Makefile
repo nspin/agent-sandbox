@@ -57,10 +57,6 @@ activate:
 		/bin/bash -c \
 			'$$(/home/x/.nix-profile/bin/nix-build --no-out-link /here -A activate)/bin/activate'
 
-shell-drv:
-	docker exec -it $(container_name) \
-		/here/shell-drv.sh
-
 .PHONY: exec
 exec:
 	docker exec -it $(container_name) \
@@ -81,5 +77,3 @@ rm-volume: rm-container
 	for id in $$(docker volume ls -q -f "name=^$(volume_name)$$"); do \
 		docker volume rm $$id; \
 	done
-
-# make rm-container && make run && make activate
