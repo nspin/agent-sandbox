@@ -43,7 +43,12 @@
     enableBashIntegration = true;
   };
 
-  programs.claude-code.enable = true;
+  programs.claude-code = {
+    enable = true;
+    skills = {
+      repo-memory = ./claude-skills/repo-memory;
+    };
+  };
 
   programs.codex = {
     enable = true;
