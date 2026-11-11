@@ -1,9 +1,6 @@
 { lib, pkgs, ... }:
 
-let
-  mntDir = "/work";
-
-in {
+{
   imports = [
     ./vscode.nix
   ];
@@ -19,10 +16,6 @@ in {
   nix.enable = true;
   nix.package = pkgs.nix;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  home.sessionVariables = {
-    CODEX_HOME = "${mntDir}/codex";
-  };
 
   home.packages = with pkgs; [ 
     less
@@ -45,13 +38,14 @@ in {
   };
 
   programs.claude-code.enable = true;
-  programs.claude-code.configDir = "${mntDir}/claude";
 
-  programs.codex.enable = true;
-  programs.codex.settings = {
-    default_permissions = ":danger-full-access";
-    sandbox_mode = "danger-full-access";
-    approval_policy = "never";
+  programs.codex = {
+    enable = true;
+    codex.settings = {
+      default_permissions = ":danger-full-access";
+      sandbox_mode = "danger-full-access";
+      approval_policy = "never";
+    };
   };
 
   programs.git = {

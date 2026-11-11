@@ -22,19 +22,6 @@ none:
 .PHONY: clean
 clean: rm-container rm-volume
 
-vscode_container_config := "$(HOME)/Library/Application\ Support/Code/User/globalStorage/ms-vscode-remote.remote-containers/nameConfigs/$(id).json"
-
-.PHONY: $(vscode_container_config) # TODO shouldn't have to be .PHONY
-$(vscode_container_config): remote-container-config.jsonc
-	cp $< $@
-
-.PHONY: sync-config
-sync-config: $(vscode_container_config)
-
-.PHONY: clean-config
-clean-config:
-	rm -f $(vscode_container_config)
-
 .PHONY: build
 build:
 	docker build \
