@@ -2,7 +2,7 @@ let
   nixpkgsSource = builtins.fetchGit {
     url = "https://github.com/NixOS/nixpkgs";
     ref = "nixpkgs-unstable";
-    rev = "8c91a71d13451abc40eb9dae8910f972f979852f";
+    rev = "4fe25e12eb9f4c744966dd3de5a05246cf098601";
     shallow = true;
   };
 
@@ -10,7 +10,7 @@ let
 
   homeManagerSource = builtins.fetchGit {
     url = "https://github.com/nix-community/home-manager";
-    rev = "486595d2cf49cfcd649b58a284fa11ac0e34da22";
+    rev = "82ce401aa350502897c3f2e85f384d61cd3b0b6d";
     shallow = true;
   };
 
