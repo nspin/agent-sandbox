@@ -45,6 +45,9 @@
 
   programs.claude-code = {
     enable = true;
+    settings = {
+      remoteControlAtStartup = true;
+    };
     skills = {
       repo-memory = ./claude-skills/repo-memory;
     };
@@ -65,9 +68,10 @@
     settings.user.email = "nick@nickspinale.com";
     settings.core.editor = "vim";
     ignores = [
-      "**/result"
-      "**/result-*"
-      "**/.direnv"
+      "result"
+      "result-*"
+      ".direnv"
+      "**/.claude/settings.local.json"
     ];
   };
 
