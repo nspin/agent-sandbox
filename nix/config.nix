@@ -38,6 +38,9 @@ in {
 
   programs.home-manager.enable = true;
 
+  programs.direnv.enable = true;
+  programs.direnv.nix-direnv.enable = true;
+
   programs.claude-code.enable = true;
   programs.claude-code.configDir = "${mntDir}/claude";
 
@@ -158,18 +161,6 @@ in {
           )
         }
       ''
-      # would ideally be in .profile, but must be after last sourcing of nix.sh
-      (lib.mkAfter ''
-        if [ -z "''${IN_NIX_SHELL+x}" ]; then
-          shell_drv=${mntDir}/shell.drv
-          if [ -e "$shell_drv" ]; then
-            eval "$(
-              nix-shell "$shell_drv" --run 'declare -px' 2>/dev/null | \
-                grep -Ev '^declare -x TMP(DIR)?='
-            )"
-          fi
-        fi
-      '')
     ];
   };
 
