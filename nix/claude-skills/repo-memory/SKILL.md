@@ -1,6 +1,6 @@
 ---
 name: repo-memory
-description: Set up the current project so Claude's project memory/knowledge is stored in the git repo (.claude/memory/ + a lean CLAUDE.md) instead of ~/.claude. Use only when the user explicitly asks to set up in-repo memory for this project (e.g. /repo-memory).
+description: Set up the current project so Claude's project memory/knowledge is stored in the git repo (.claude/memory/ + a lean .claude/CLAUDE.md) instead of ~/.claude. Use only when the user explicitly asks to set up in-repo memory for this project (e.g. /repo-memory).
 ---
 
 # Set up in-repo project memory
@@ -18,9 +18,10 @@ Goal: everything Claude learns about this project persists in the repo, because 
    # Memory index
    ```
 
-3. Add this section to `<root>/CLAUDE.md`. If CLAUDE.md exists, read it first and append the section
-   (skip if an equivalent "## Memory" section already exists); otherwise create the file with a
-   `# CLAUDE.md` heading followed by the section. Do not put any memory content in CLAUDE.md.
+3. Add this section to `<root>/.claude/CLAUDE.md`. If that file exists, read it first and append the
+   section (skip if an equivalent "## Memory" section already exists); otherwise create it with a
+   `# CLAUDE.md` heading followed by the section. If the project instead has a root `CLAUDE.md`, ask the
+   user whether to move it into `.claude/` first. Do not put any memory content in CLAUDE.md.
 
    ```markdown
    ## Memory
@@ -34,8 +35,10 @@ Goal: everything Claude learns about this project persists in the repo, because 
    - Update existing notes rather than duplicating; delete notes that turn out to be wrong.
    - Keep this file lean: no auto-memory content here.
 
-   @.claude/memory/MEMORY.md
+   @memory/MEMORY.md
    ```
+
+   (`@` imports resolve relative to the file containing them, i.e. `.claude/`.)
 
 4. Migrate existing auto-memory: look in `~/.claude/projects/<sanitized-cwd>/memory/` (sanitized cwd =
    absolute path with `/` replaced by `-`, e.g. `/work/x` → `-work-x`). Move any note files into
@@ -46,6 +49,6 @@ Goal: everything Claude learns about this project persists in the repo, because 
    project memory kept in the repo (Why: home dir is ephemeral; How to apply: write notes here, never
    to ~/.claude), and add it to the index.
 
-6. If `.gitignore` would ignore `.claude/` or `CLAUDE.md`, tell the user. Do not commit unless asked.
+6. If `.gitignore` would ignore `.claude/CLAUDE.md` or `.claude/memory/`, tell the user. Do not commit unless asked.
 
 7. Report the files created/changed. From now on in this session, write memory to `.claude/memory/`.

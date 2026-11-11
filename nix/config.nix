@@ -67,6 +67,7 @@
     ignores = [
       "**/result"
       "**/result-*"
+      "**/.direnv"
     ];
   };
 
