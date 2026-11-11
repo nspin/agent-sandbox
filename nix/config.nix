@@ -17,15 +17,19 @@
   nix.package = pkgs.nix;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  home.packages = with pkgs; [ 
+  home.packages = with pkgs; [
+    nix
+    cacert
+    nix-bash-completions
+
     less
     file
     curl
     wget
-    nix
-    cacert
-    bash-completion
-    nix-bash-completions
+    openssl
+    git
+    make
+
     gh
   ];
 
@@ -71,18 +75,17 @@
     enable = true;
 
     extraConfig = ''
+      set nobackup
+
       noremap <space> <nop>
       noremap <del> <nop>
       noremap <bs> <nop>
       noremap <cr> <nop>
       noremap Y <nop>
 
-      nnoremap <space>j :bprev<cr>
-      nnoremap <space>k :bnext<cr>
-      nnoremap <space>d :Wipeout<cr>
+      nnoremap Y y$
 
-      nnoremap <space>n gT
-      nnoremap <space>m gt
+      noremap <cr> :
 
       nnoremap <space>q :quit<cr>
       nnoremap <space>w :write<cr>
@@ -90,32 +93,29 @@
       nnoremap <space>t :tabe<space>
       nnoremap <space>y :quit!<cr>
 
-      fun s:nrbufs()
-        let i = bufnr('$')
-        let j = 0
-        while i > 0
-          if buflisted(i)
-            let j += i
-          endif
-          let i -= 1
-        endwhile
-        return j
-      endfun
+      noremap <space>[ :set paste<cr>
+      noremap <space>] :set nopaste<cr>
 
-      fun s:my_wipeout()
-        let n = s:nrbufs()
-        if n == 1
+      nnoremap <space>j :bprev<cr>
+      nnoremap <space>k :bnext<cr>
+      nnoremap <space>d :WipeoutOrQuit<cr>
+
+      nnoremap <space>n gT
+      nnoremap <space>m gt
+
+      inoremap <c-z> <esc>:WWipeoutOrQuit<cr>
+      noremap <c-z> :WWipeoutOrQuit<cr>
+
+      fun s:wipeout_or_quit()
+        if len(getbufinfo({'buflisted': 1})) == 1
           quit
         else
           bwipeout
         endif
       endfun
 
-      command Wipeout call <sid>my_wipeout()
-      command WWipeout write | Wipeout
-
-      inoremap <c-z> <esc>:WWipeout<cr>
-      noremap <c-z> :WWipeout<cr>
+      command WipeoutOrQuit call <sid>wipeout_or_quit()
+      command WWipeoutOrQuit write | WipeoutOrQuit
     '';
   };
 

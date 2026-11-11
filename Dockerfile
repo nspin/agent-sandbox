@@ -5,8 +5,8 @@ RUN apt-get update && apt-get install -y \
     curl \
     # for nix installer
     xz-utils \
-    # for codex vscode extension
-    ca-certificates \
+    # for nix
+    git \
     && rm -rf /var/lib/apt/lists/*
 
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
