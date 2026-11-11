@@ -1,12 +1,12 @@
 { pkgs, ... }:
 
 let
-  hol4-mode = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
+  hol4-vscode = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
     mktplcRef = {
-      name = "hol4-mode";
-      publisher = "oskarabrahamsson";
-      version = "0.0.20";
-      hash = "sha256-LggLy0B0twlnFP4jE2QQGv3x3c0WiBPGYwhCycTrWT4=";
+      publisher = "hol4developers";
+      name = "hol4-vscode";
+      version = "0.4.3";
+      hash = "sha256-whNrMOhi1NsC2O+fvtqPBGHS+nNj79/ygivupNP8g6Q=";
     };
   };
 
@@ -56,7 +56,7 @@ let
     rust-lang.rust-analyzer
     haskell
     language-haskell
-    hol4-mode
+    hol4-vscode
     leanprover.lean4
     mkhl.direnv
   ];
@@ -77,7 +77,7 @@ in {
 
   home.file.".vscode-server/data/Machine/settings.json".text = builtins.toJSON {
     "extensions.autoCheckUpdates" = false;
-    "extensions.autoUpdate" = false;
+    "extensions.autoUpdate" = "off";
     "claudeCode.allowDangerouslySkipPermissions" = true;
     "claudeCode.initialPermissionMode" = "bypassPermissions";
   };
