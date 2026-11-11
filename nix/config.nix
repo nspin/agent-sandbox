@@ -38,8 +38,11 @@ in {
 
   programs.home-manager.enable = true;
 
-  programs.direnv.enable = true;
-  programs.direnv.nix-direnv.enable = true;
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+    enableBashIntegration = true;
+  };
 
   programs.claude-code.enable = true;
   programs.claude-code.configDir = "${mntDir}/claude";

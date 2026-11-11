@@ -58,6 +58,7 @@ let
     language-haskell
     hol4-mode
     leanprover.lean4
+    mkhl.direnv
   ];
 
   # Same layout as programs.vscode with mutableExtensionsDir = false, but at the
