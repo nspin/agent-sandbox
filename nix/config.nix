@@ -4,6 +4,10 @@ let
   mntDir = "/work";
 
 in {
+  imports = [
+    ./vscode.nix
+  ];
+
   home.username = "x";
   home.homeDirectory = "/home/x";
   home.stateVersion = "24.11";
