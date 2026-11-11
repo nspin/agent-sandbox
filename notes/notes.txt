@@ -1,5 +1,0 @@
-ln -sf $(nix eval /work/rv/env#devShells.aarch64-linux.default.drvPath --raw) /work/shell.drv
-nix-shell shell.drv
-
-ln -sf $(nix eval /work/x/env#devShells.aarch64-linux.default.drvPath --raw) /work/shell.drv
-nix-shell shell.drv
