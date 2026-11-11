@@ -28,7 +28,9 @@
     wget
     openssl
     git
-    make
+
+    gnumake
+    python3
 
     gh
   ];
@@ -45,7 +47,7 @@
 
   programs.codex = {
     enable = true;
-    codex.settings = {
+    settings = {
       default_permissions = ":danger-full-access";
       sandbox_mode = "danger-full-access";
       approval_policy = "never";
