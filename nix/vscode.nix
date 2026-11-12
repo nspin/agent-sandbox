@@ -45,6 +45,12 @@ let
     };
   };
 
+  # Logging wrapper the Claude extension launches its claude process through
+  # (claudeCode.claudeProcessWrapper). See claude-process-wrapper/README.md.
+  claude-process-wrapper = pkgs.writers.writePython3Bin "claude-process-wrapper" {
+    flakeIgnore = [ "E501" ];
+  } (builtins.readFile ./claude-process-wrapper/claude-process-wrapper.py);
+
   vscodeServerExtensions = with pkgs.vscode-extensions; [
     anthropic.claude-code
     codex
@@ -80,5 +86,6 @@ in {
     "extensions.autoUpdate" = "off";
     "claudeCode.allowDangerouslySkipPermissions" = true;
     "claudeCode.initialPermissionMode" = "bypassPermissions";
+    "claudeCode.claudeProcessWrapper" = "${claude-process-wrapper}/bin/claude-process-wrapper";
   };
 }
